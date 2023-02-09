@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create a Thumbnail from a Video</title>
+    <style>
+      #thumbnail {
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input [aria-label="file upload" ] id="file-input" type="file" />
+      <button id="submit">Create Thumbnail</button>
+      <div id="error"></div>
+      <img alt="nice picture" id="thumbnail" />
+    </div>
+    <script src="client.js"></script>
+  </body>
+</html>
