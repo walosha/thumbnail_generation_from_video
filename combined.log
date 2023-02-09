@@ -1,1 +1,11 @@
 {"level":"info","message":"App listening at http://localhost:3100","service":"app-service"}
+{"level":"error","service":"app-service"}
+{"level":"error","service":"app-service"}
+{"level":"error","service":"app-service"}
+{"level":"error","service":"app-service"}
+{"level":"error","service":"app-service"}
+{"level":"info","message":"App listening at http://localhost:3100","service":"app-service"}
+{"level":"info","message":"The image has been saved!","service":"app-service"}
+{"level":"info","message":"The image has been saved!","service":"app-service"}
+{"level":"info","message":"The image has been saved!","service":"app-service"}
+{"level":"info","message":"The image has been saved!","service":"app-service"}
