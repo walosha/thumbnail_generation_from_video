@@ -4,7 +4,9 @@ const cors = require("cors");
 const multer = require("multer");
 const { createFFmpeg } = require("@ffmpeg/ffmpeg");
 const { logger } = require("./config");
+import PQueue from "p-queue";
 
+const requestQueue = new PQueue({ concurrency: 1 });
 const ffmpegInstance = createFFmpeg({ log: true });
 let ffmpegLoadingPromise = ffmpegInstance.load();
 
@@ -36,21 +38,24 @@ app.post("/thumbnail", upload.single("video"), async (req, res) => {
     const outputFileName = `output-image.png`;
     let outputData = null;
 
-    ffmpeg.FS("writeFile", inputFileName, videoData);
+    await requestQueue.add(async () => {
+      ffmpeg.FS("writeFile", inputFileName, videoData);
 
-    await ffmpeg.run(
-      "-ss",
-      "00:00:01.000",
-      "-i",
-      inputFileName,
-      "-frames:v",
-      "1",
-      outputFileName
-    );
+      await ffmpeg.run(
+        "-ss",
+        "00:00:01.000",
+        "-i",
+        inputFileName,
+        "-frames:v",
+        "1",
+        outputFileName
+      );
 
-    outputData = ffmpeg.FS("readFile", outputFileName);
-    ffmpeg.FS("unlink", inputFileName);
-    ffmpeg.FS("unlink", outputFileName);
+      outputData = ffmpeg.FS("readFile", outputFileName);
+
+      ffmpeg.FS("unlink", inputFileName);
+      ffmpeg.FS("unlink", outputFileName);
+    });
 
     res.writeHead(200, {
       "Content-Type": "image/png",
